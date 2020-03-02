@@ -1,15 +1,15 @@
 import json
 import bcrypt
 import jwt
+import requests
 
 import my_settings
-from .models import Account
+from .models import Account, SocialLog
 from .utils import login_requested
 
 from django.views import View
 from django.http import HttpResponse, JsonResponse
 from django.db import IntegrityError
-from django.shortcuts import redirect
 from django.core.validators import validate_email
 from django.core.exceptions import ValidationError
 
@@ -35,13 +35,12 @@ class SignUp(View):
                 agree_promotion=False,
             ).save()  # social login만 추가.
 
-            return HttpResponse(status=200)
+            return JsonResponse({'message':"SIGNUP_COMPLETE"}, status=200)
 
         except ValidationError:
             return JsonResponse({"message": "INVALID_EMAIL_FORM"}, status=400)
         except KeyError:
             return JsonResponse({"message": "INVALID_KEYS"}, status=400)
-
 
 class SignIn(View):
     def post(self, request):
@@ -66,11 +65,30 @@ class SignIn(View):
 
 class KakaoSignIn(View):
     def get(self, request):
-        client_id = SECRET_KEY["kakao"]
-        clientSecret = '7pzvpy3RXKgFq8igXfiOgdMzncYxWkXY'
-        redirect_uri = "http://127.0.0.1:8000/account/signin/kakao"
+        kakao_token = request.headers["Authorization"]
+        headers = {'Athorization' : f"Bearer {kakao_token}"}
+        urls = "https://kapi.kakao.com/v2/user/me"
+        response = requests.get(urls, headers = headers, timeout = 2)
+        kakao_userinfo = response.json()
+        print('ddddd')
 
-        return redirect(
-            f"https://kauth.kakao.com/oauth/authorize?client_id={client_id}&redirect_uri={redirect_uri}&response_type=code"
-        )
+        if Account.objects.filter(sns_id = kakao_userinfo['id']).exists():
+            user = Account.objects.get(sns_id = kakao_userinfo['id'])
+            token = jwt.encode({"id":user.id}, SECRET_KEY['secret'], SECRET_KEY['algorithm']).decode('utf-8')
+            print('aaaaa')
+            return JsonResponse({"access_token": token}, status = 200)
+        
+        else:
+            Account.objects.create(
+                social_platform_id = SocialPlatform.objects.get(social = 'kakao').id,
+                sns_id             = kakao_userinfo['id'],
+                email              = kakao_userinfo['kakao_account'].get('email', None),
+                username           = kakao_userinfo['properties'].get('nickname', None)
+            )
+            user = Account.objects.get(sns_id = kakao_userinfo['id'])
+            token = jwt.encode({"id":user.id}, SECRET_KEY['secret'], SECRET_KEY['algorithm']).decode('utf-8')
+            print('kkkk')
+            return JsonResponse({"access_token": token}, status = 200)
+
+
 
