@@ -66,7 +66,7 @@ class SignIn(View):
 
 class KakaoSignIn(View):
     def get(self, request):
-        client_id = SECRET_KEY['kakao']
+        client_id = SECRET_KEY["kakao"]
         clientSecret = '7pzvpy3RXKgFq8igXfiOgdMzncYxWkXY'
         redirect_uri = "http://127.0.0.1:8000/account/signin/kakao"
 
