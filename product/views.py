@@ -9,18 +9,18 @@ class MainView(View):
     def get(self, request):
         product_list = []
 
-        for sub_theme in SubTheme.objects.values():
-            product_list.append({'sub_theme' : sub_theme['name'],'offers' : [{
-                'product_name' : product_data.name,
-                'product_type' : product_data.category,
-                'product_id'   : product_data.id,
-                'city_name'    : product_data.city.name,
-                'country_name' : product_data.country.name,
-                'price'        : Price.objects.filter(tour_product_id = product_data.id)[0].price,
-                'origin_price' : Price.objects.filter(tour_product_id = product_data.id)[0].origin_price,
-                'thumnail'     : Image.objects.filter(tour_product_id  = product_data.id)[0].thumnail
-            } for product_data in TourProduct.objects.filter(sub_theme_id = sub_theme['id'])
-            ] })
+        [product_list.append({'sub_theme' : sub_theme['name'], 'offers' : [{
+            'product_name' : product_data.name,
+            'product_type' : product_data.category,
+            'product_id'   : product_data.id,
+            'city_name'    : product_data.city.name,
+            'country_name' : product_data.country.name,
+            'price'        : Price.objects.filter(tour_product_id = product_data.id)[0].price,
+            'origin_price' : Price.objects.filter(tour_product_id = product_data.id)[0].origin_price,
+            'thumnail'     : Image.objects.filter(tour_product_id  = product_data.id)[0].thumnail
+            }]
+            }) for sub_theme in SubTheme.objects.values() for product_data in TourProduct.objects.filter(sub_theme_id = sub_theme['id'])]
+
    
         return JsonResponse({'data' : product_list}, status=200)
 
@@ -60,6 +60,7 @@ class ProductView(View):
             }
 
             return JsonResponse({'data' : product_info}, status=200)
+        return JsonResponse({'data' : []}, status=200)
 
-        return JsonResponse({'message' : "INVALID_PAGE"}, status=400)
+
             
