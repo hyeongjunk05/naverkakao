@@ -27,15 +27,10 @@ class SignUp(View):
             password = bcrypt.hashpw(
                 data['password'].encode(), bcrypt.gensalt()).decode('utf-8')
 
-            # kakao_id       = data.get("kakao_id", None)
-
             Account(
                 username=data['username'],
                 email=data['email'],
                 password=password,
-                agree_all=data['agree_all'],
-                agree_rule=False,
-                agree_info=False,
                 agree_location=False,
                 agree_promotion=False,
             ).save()  # social login만 추가.
