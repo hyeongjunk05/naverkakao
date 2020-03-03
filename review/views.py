@@ -31,17 +31,14 @@ class ReviewView(View):
             return JsonResponse({'message' : 'INVALID_KEYS'}, status=400)
 
     def get(self, request, product_id):
-        if TourProduct.objects.filter(number=product_id).exists():
+        review_list = [{
+            'id'      : review_data.review.id,
+            'content' : review_data.review.content,
+            'grade'   : review_data.review.grade,
+            'date'    : review_data.review.created_at
+            } for review_data in ReviewTourProduct.objects.select_related('review').filter(tour_product__number = product_id)]
 
-            review_list = [{
-                'id'      : review_data.review.id,
-                'content' : review_data.review.content,
-                'grade'   : review_data.review.grade,
-                'date'    : review_data.review.created_at
-                } for review_data in ReviewTourProduct.objects.select_related('review').filter(tour_product__number = product_id)]
-
-            return JsonResponse({'REVIEW_LIST' : review_list}, status=200)
-        return JsonResponse({'message' : 'INVALID_PRODUCT'}, status=200)
+        return JsonResponse({'Review_list' : review_list}, status=200)
 
 class ReviewDetail(View):
     def post(self, request, product_id, review_id):
@@ -58,12 +55,17 @@ class ReviewDetail(View):
             return JsonResponse({'message' : 'INVALID_KEYS'}, status=400)           
 
     def delete(self, request, product_id, review_id):
-        if TourProduct.objects.filter(number=product_id).exists() and Review.objects.filter(id = review_id).exists():
-            deleted_review = ReviewTourProduct.objects.get(tour_product = TourProduct.objects.filter(number = product_id)[0].id, review = review_id)
-            deleted_review.delete()
-        
-            return HttpResponse(status=200)
-        return JsonResponse({'message' : 'INVALID_PRODUCT_OR_REVIEW'}, status=200)
+        try:
+            if TourProduct.objects.filter(number=product_id).exists() and Review.objects.filter(id = review_id).exists():
+                deleted_review = ReviewTourProduct.objects.get(tour_product = TourProduct.objects.get(number = product_id).id, review = review_id)
+                deleted_review.delete()
+
+                return HttpResponse(status=200)
+            return JsonResponse({'message' : 'INVALID_PRODUCT_OR_REVIEW'}, status=200)
+        except ReviewTourProduct.DoesNotExist:
+            return HttpResponse(status=404)
+
+
 
 
 
