@@ -16,6 +16,7 @@ class TourProduct(models.Model):
     non_amenity       = models.TextField(null=True)
     meeting_time      = models.CharField(max_length = 100, null=True)
     address           = models.CharField(max_length = 100, null=True)
+    address_map       = models.URLField(null=True)
     latitude          = models.DecimalField(max_digits = 20, decimal_places = 10, null=True)
     longitude         = models.DecimalField(max_digits = 20, decimal_places = 10, null=True)
     main_theme        = models.ForeignKey('MainTheme', on_delete = models.CASCADE, null=True, blank=True)

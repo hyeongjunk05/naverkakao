@@ -50,6 +50,9 @@ class ProductView(View):
                 'non_amenity'          : product_data.non_amenity,
                 'latitude'             : product_data.latitude,
                 'longitude'            : product_data.longitude,
+                'address'              : product_data.address,
+                'address_map'          : product_data.address_map,
+                'meeting_time'         : product_data.meeting_time,
                 'course_info'          : [course_object for course_object in Course.objects.filter(tour_product_id = product_data.id).values()],
                 'image_info'           : [image_object['product_image'] for image_object in Image.objects.filter(tour_product_id = product_data.id).values()],
                 'price_info' : [{
