@@ -7,7 +7,7 @@ from django.views import View
 from django.http  import HttpResponse, JsonResponse
 from datetime     import datetime,timedelta,timezone
 
-class CreateReview(View):
+class ReviewView(View):
     def post(self, request, product_id):
         if TourProduct.objects.filter(number=product_id).exists():
             data = json.loads(request.body)
@@ -25,7 +25,7 @@ class CreateReview(View):
             )
         
             return JsonResponse({'message' : 'SUCCESS'}, status=200)
-        return JsonResponse({'message' : 'INVALID PRODUCT'}, status=200)
+        return JsonResponse({'message' : 'INVALID_PRODUCT'}, status=200)
 
     def get(self, request, product_id):
         if TourProduct.objects.filter(number=product_id).exists():
@@ -39,9 +39,9 @@ class CreateReview(View):
                 }) for review_data in ReviewTourProduct.objects.select_related('review').filter(tour_product = TourProduct.objects.get(number = product_id).id)]
 
             return JsonResponse({'Review_list' : review_list}, status=200)
-        return JsonResponse({'message' : 'INVALID PRODUCT'}, status=200)
+        return JsonResponse({'message' : 'INVALID_PRODUCT'}, status=200)
 
-class UpadteReview(View):
+class ReviewDetail(View):
     def post(self, request, product_id, review_id):
         if (TourProduct.objects.filter(number=product_id).exists()) and Review.objects.filter(id = review_id).exists():
             data      = json.loads(request.body)
@@ -50,16 +50,19 @@ class UpadteReview(View):
             Review.objects.filter(id=review_id).update(content = data['content'], updated_at = edit_time)
 
             return JsonResponse({'message' : 'SUCCESS'}, status=200)
-        return JsonResponse({'message' : 'INVALID PRODUCT_OR_REVIEW' })
+        return JsonResponse({'message' : 'INVALID_PRODUCT_OR_REVIEW'}, status=200)
 
-class DeleteReview(View):
-    def get(self, request, product_id, review_id):
+    def delete(self, request, product_id, review_id):
         if (TourProduct.objects.filter(number=product_id).exists()) and Review.objects.filter(id = review_id).exists():
             deleted_review = ReviewTourProduct.objects.get(tour_product = TourProduct.objects.filter(number = product_id)[0].id, review = review_id)
             deleted_review.delete()
         
-            return HttpResponse({'message' : 'SUCCESS'}, status=200)
-        return JsonResponse({'message' : 'INVALID PRODUCT_OR_REVIEW' })
+            return JsonResponse({'message' : 'SUCCESS'}, status=200)
+        return JsonResponse({'message' : 'INVALID_PRODUCT_OR_REVIEW'}, status=200)
+
+
+
+
 
 
 
