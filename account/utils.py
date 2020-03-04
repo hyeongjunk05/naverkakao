@@ -12,12 +12,12 @@ SECRET_KEY = my_settings.SECRET_KEY
 def login_requested(func):
     def wrapper(self, request, *args, **kwargs):
         access_token = request.headers.get('Authorization', None)
-
+        print("wrapper start")
+        print("SECRET_KEY=", end=""), print(SECRET_KEY['secret'])
         try:
-            token_decoded = jwt.decode(
-                access_token, SECRET_KEY['secret'], SECRET_KEY['algorithm'])  # ['email']
-            #agent_id = decode["user"]
-            agent = Account.objects.get(id=token_decoded["id"])
+            token_decoded = jwt.decode(access_token, SECRET_KEY['secret'], SECRET_KEY['algorithm'])['id']
+            print("after decode")
+            agent = Account.objects.get(id=token_decoded)
             request.agent = agent
 
         except Account.DoesNotExist:

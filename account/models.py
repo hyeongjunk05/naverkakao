@@ -8,21 +8,55 @@ class SocialLog(models.Model):
         db_table = 'social_platform'
 
 class Account(models.Model):
-    social_platform = models.ForeignKey(SocialLog, on_delete = models.CASCADE, null=True)
-    sns_id = models.IntegerField(null=True)
-    username = models.CharField(max_length=50, null=True)
-    # 여기서 unique = True 하면 이메일의 고유성 확립되나 확인하기
-    email = models.EmailField(max_length=50, unique=True, null=True)
-    password = models.CharField(max_length=500)
-    agree_location = models.NullBooleanField()
-    agree_promotion = models.BooleanField(default=False)
-    created_at = models.DateTimeField(auto_now_add=True)
-    updated_at = models.DateTimeField(auto_now=True)
-    profile = models.URLField(max_length=500, null=True, blank=True)
-    phone = models.IntegerField(null=True, blank=True)
-    refund_account = models.IntegerField(null=True, blank=True)
-    refund_bank = models.CharField(max_length=45, null=True, blank=True)
-    account_holder = models.CharField(max_length=45, null=True, blank=True)
+    social_platform  = models.ForeignKey(SocialLog, on_delete = models.CASCADE, null=True)
+    sns_id           = models.IntegerField(null=True)
+    username         = models.CharField(max_length=50, null=True)
+    email            = models.EmailField(max_length=50, unique=True, null=True)
+    password         = models.CharField(max_length=500)
+    agree_location   = models.NullBooleanField()
+    agree_promotion  = models.BooleanField(default=False)
+    created_at       = models.DateTimeField(auto_now_add=True)
+    updated_at       = models.DateTimeField(auto_now=True)
+    profile          = models.URLField(max_length=500, null=True, blank=True)
+    phone            = models.IntegerField(null=True, blank=True)
+    user_selection1  = models.ManyToManyField('MarketingAgree', through='UserAdditionalInfo')
+    user_selection2  = models.ManyToManyField('SnsConnection', through='UserAdditionalInfo')
+    user_selection3  = models.ManyToManyField('RefundAccount', through='UserAdditionalInfo')
 
     class Meta:
         db_table = 'accounts'
+
+class MarketingAgree(models.Model):
+    email_receive = models.BooleanField(default=True)
+    sms_receive   = models.BooleanField(default=True)
+    app_receive   = models.BooleanField(default=True)
+
+    class Meta:
+        db_table = 'marketingagree'
+
+class SnsConnection(models.Model):
+    kakao_connection    = models.BooleanField(default=False)
+    naver_connection    = models.BooleanField(default=False)
+    facebook_connection = models.BooleanField(default=False)
+
+    class Meta:
+        db_table = 'snsconnection'
+
+class RefundAccount(models.Model):
+    refund_account  = models.IntegerField(null=True, blank=True)
+    refund_bank     = models.CharField(max_length=45, null=True, blank=True)
+    account_holder  = models.CharField(max_length=45, null=True, blank=True)
+
+    class Meta:
+        db_table = 'refundaccount'
+
+class UserAdditionalInfo(models.Model):
+    user            = models.ForeignKey(Account, on_delete=models.CASCADE)
+    marketing_agree = models.ForeignKey(MarketingAgree, on_delete=models.CASCADE)
+    sns_connection  = models.ForeignKey(SnsConnection, on_delete=models.CASCADE)
+    refund          = models.ForeignKey(RefundAccount, on_delete=models.CASCADE)
+
+    class Meta:
+        db_table = 'useraddinfo'
+
+
