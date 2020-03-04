@@ -4,7 +4,14 @@ import jwt
 import requests
 
 import my_settings
-from .models import *
+from .models import (
+    SocialLog,
+    Account,
+    MarketingAgree,
+    SnsConnection,
+    RefundAccount,
+    UserAdditionalInfo
+)
 from .utils import login_requested
 
 from django.views import View
