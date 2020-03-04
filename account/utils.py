@@ -18,6 +18,9 @@ def login_requested(func):
             agent = Account.objects.get(id=token_decoded)
             request.agent = agent
 
+        except jwt.DecodeError:
+            return JsonResponse({'message' : 'INVALID_USER'}, status=401)
+
         except Account.DoesNotExist:
             return JsonResponse({"message": "INVALID_TOKEN"}, status=401)
 
