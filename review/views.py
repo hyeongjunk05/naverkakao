@@ -35,13 +35,15 @@ class ReviewView(View):
             return JsonResponse({'message' : 'INVALID_KEYS'}, status=400)
 
     def get(self, request, product_id):
-        review_list = [{
-            'id'      : review_data.review.id,
-            'name'    : review_data.review.account.username,
-            'content' : review_data.review.content,
-            'grade'   : review_data.review.grade,
-            'date'    : review_data.review.created_at
-            } for review_data in ReviewTourProduct.objects.select_related('review').filter(tour_product__number = product_id)]
+        review_list = [
+            {
+                'id'      : review_data.review.id,
+                'name'    : review_data.review.account.username,
+                'content' : review_data.review.content,
+                'grade'   : review_data.review.grade,
+                'date'    : review_data.review.created_at
+            } for review_data in ReviewTourProduct.objects.select_related('review').filter(tour_product__number = product_id)
+        ]
 
         return JsonResponse({'Review_list' : review_list}, status=200)
 
