@@ -10,7 +10,6 @@ from .models import (
     MarketingAgree,
     SnsConnection,
     RefundAccount,
-    UserAdditionalInfo
 )
 from .utils import login_requested
 
@@ -31,6 +30,8 @@ class SignUp(View):
             if Account.objects.filter(email=data['email']).exists():
                 return JsonResponse({'message': "ALEADY_EXISTS_EMAIL"}, status=400)
 
+            if len(data['password']) < 7:
+                return JsonResponse({"message":"TYPE_LONG_PASSWORD"}, status=400)
             password = bcrypt.hashpw(
                 data['password'].encode(), bcrypt.gensalt()).decode('utf-8')
 
@@ -79,19 +80,19 @@ class KakaoSignIn(View):
             response = requests.get(urls, headers = headers, timeout = 2)
             kakao_userinfo = response.json()
 
-            if Account.objects.filter(sns_id = kakao_userinfo['id']).exists():
-                user = Account.objects.get(sns_id = kakao_userinfo['id'])
+            if Account.objects.filter(social_id = kakao_userinfo['id']).exists():
+                user = Account.objects.get(social_id = kakao_userinfo['id'])
                 token = jwt.encode({"id":user.id}, SECRET_KEY['secret'], SECRET_KEY['algorithm']).decode('utf-8')
                 return JsonResponse({"access_token": token}, status = 200)
             
             else:
                 Account.objects.create(
                     social_platform_id = SocialLog.objects.get(social = 'kakao').id,
-                    sns_id             = kakao_userinfo['id'],
+                    social_id          = kakao_userinfo['id'],
                     email              = kakao_userinfo['kakao_account'].get('email', None),
                     username           = kakao_userinfo['properties'].get('nickname', None)
                 )
-                user = Account.objects.get(sns_id = kakao_userinfo['id'])
+                user = Account.objects.get(social_id = kakao_userinfo['id'])
                 token = jwt.encode({"id":user.id}, SECRET_KEY['secret'], SECRET_KEY['algorithm']).decode('utf-8')
                 return JsonResponse({"access_token": token}, status = 200)
         except KeyError:
@@ -107,19 +108,19 @@ class NaverSignIn(View):
             response = requests.get(urls, headers = headers, timeout = 2)
             naver_userinfo = response.json()
 
-            if Account.objects.filter(sns_id = naver_userinfo['response'].get('id')).exists():
-                user = Account.objects.get(sns_id = naver_userinfo['response'].get('id'))
+            if Account.objects.filter(social_id = naver_userinfo['response'].get('id')).exists():
+                user = Account.objects.get(social_id = naver_userinfo['response'].get('id'))
                 token = jwt.encode({"id":user.id}, SECRET_KEY['secret'], SECRET_KEY['algorithm']).decode('utf-8')
                 return JsonResponse({"access_token": token}, status = 200)
             
             else:
                 Account.objects.create(
                     social_platform_id = SocialLog.objects.get(social = 'naver').id,
-                    sns_id             = naver_userinfo['response'].get('id',None),
+                    social_id          = naver_userinfo['response'].get('id',None),
                     email              = naver_userinfo['response'].get('email', None),
                     username           = naver_userinfo['response'].get('name', None)
                 )
-                user = Account.objects.get(sns_id = naver_userinfo['response'].get('id'))
+                user = Account.objects.get(social_id = naver_userinfo['response'].get('id'))
                 token = jwt.encode({"id":user.id}, SECRET_KEY['secret'], SECRET_KEY['algorithm']).decode('utf-8')
                 return JsonResponse({"access_token": token}, status = 200)
         except KeyError:
@@ -129,36 +130,24 @@ class ProfileUpdate(View):
     @login_requested
     def post(self, request):
         data = json.loads(request.body)
-        profile = UserAdditionalInfo.objects.get(user = request.agent)
+        profile = Account.objects.get(id = request.agent.id)
         try:
-            profile.marketing_agree.email_receive      = data.get('email_receive', None)
-            profile.marketing_agree.sms_receive        = data.get('sms_receive', None)
-            profile.marketing_agree.app_receive        = data.get('app_receive', None)
-            profile.sns_connection.kakao_connection    = data.get('kakao_connection', None)
-            profile.sns_connection.naver_connection    = data.get('naver_connection', None)
-            profile.sns_connection.facebook_connection = data.get('facebook_connection', None)
-            profile.refund.refund_account              = data.get('refund_account', None)
-            profile.refund.refund_bank                 = data.get('refund_bank', None)
-            profile.refund.account_holder              = data.get('account_holder', None)
+            profile.username = data.get('username')
+            profile.phone    = data.get('phone')
+            profile.email    = data.get('email')
             profile.save()
-            return JsonResponse({"message":"UPDATE_COMPLETE"}, status=200)
+            return JsonResponse({'message':'USERINFO_CHANGED'}, status=200)
         except KeyError:
-            return JsonResponse({"message":"INVALID_KEY"}, status=400)
+            return JsonResponse({'message':'INVALID_KEY'}, status=400)
 
     @login_requested
     def get(self, request):
-        profile = UserAdditionalInfo.objects.get(user = request.agent)
+        profile = Account.objects.get(id = request.agent.id)
         try:
             agent_profile = {
-                "email_receive"       : profile.marketing_agree.email_receive,
-                "sms_receive"         : profile.marketing_agree.sms_receive,
-                "app_receive"         : profile.marketing_agree.app_receive,
-                "kakao_connection"    : profile.sns_connection.kakao_connection,
-                "naver_connection"    : profile.sns_connection.naver_connection,
-                "facebook_connection" : profile.sns_connection.facebook_connection,
-                "refund_account"      : profile.refund.refund_account,
-                "refund_bank"         : profile.refund.refund_bank,
-                "account_holder"      : profile.refund.account_holder,
+                "username"      : profile.username,
+                "email"         : profile.email,
+                "phone"         : profile.phone
             }
             return JsonResponse({"agent_profile": agent_profile}, status=200)
         except KeyError:

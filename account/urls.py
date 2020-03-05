@@ -1,5 +1,11 @@
 from django.urls import path
-from .views      import SignUp, SignIn, KakaoSignIn, NaverSignIn, ProfileUpdate
+from .views      import (
+    SignUp, 
+    SignIn, 
+    KakaoSignIn, 
+    NaverSignIn, 
+    ProfileUpdate
+)
 
 urlpatterns = [
     path('/signup', SignUp.as_view()),

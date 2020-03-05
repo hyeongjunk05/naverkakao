@@ -11,6 +11,9 @@ SECRET_KEY = my_settings.SECRET_KEY
 
 def login_requested(func):
     def wrapper(self, request, *args, **kwargs):
+        if "Authorization" not in request.headers: 
+            return JsonResponse({"message":"INVALID_LOGIN"}, status=401)
+
         access_token = request.headers.get('Authorization', None)
 
         try:
@@ -19,10 +22,10 @@ def login_requested(func):
             request.agent = agent
 
         except jwt.DecodeError:
-            return JsonResponse({'message' : 'INVALID_USER'}, status=401)
+            return JsonResponse({'message' : 'INVALID_TOKEN'}, status=401)
 
         except Account.DoesNotExist:
-            return JsonResponse({"message": "INVALID_TOKEN"}, status=401)
+            return JsonResponse({"message": "INVALID_USER"}, status=401)
 
         return func(self, request, *args, **kwargs)
     return wrapper
