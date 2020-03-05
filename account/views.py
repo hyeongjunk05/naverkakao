@@ -131,15 +131,15 @@ class ProfileUpdate(View):
         data = json.loads(request.body)
         profile = UserAdditionalInfo.objects.get(user = request.agent)
         try:
-            profile.marketing_agree.email_receive      = data['email_receive']
-            profile.marketing_agree.sms_receive        = data['sms_receive']
-            profile.marketing_agree.app_receive        = data['app_receive']
-            profile.sns_connection.kakao_connection    = data['kakao_connection']
-            profile.sns_connection.naver_connection    = data['naver_connection']
-            profile.sns_connection.facebook_connection = data['facebook_connection']
-            profile.refund.refund_account              = data['refund_account']
-            profile.refund.refund_bank                 = data['refund_bank']
-            profile.refund.account_holder              = data['account_holder']
+            profile.marketing_agree.email_receive      = data.get('email_receive', None)
+            profile.marketing_agree.sms_receive        = data.get('sms_receive', None)
+            profile.marketing_agree.app_receive        = data.get('app_receive', None)
+            profile.sns_connection.kakao_connection    = data.get('kakao_connection', None)
+            profile.sns_connection.naver_connection    = data.get('naver_connection', None)
+            profile.sns_connection.facebook_connection = data.get('facebook_connection', None)
+            profile.refund.refund_account              = data.get('refund_account', None)
+            profile.refund.refund_bank                 = data.get('refund_bank', None)
+            profile.refund.account_holder              = data.get('account_holder', None)
             profile.save()
             return JsonResponse({"message":"UPDATE_COMPLETE"}, status=200)
         except KeyError:
