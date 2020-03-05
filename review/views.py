@@ -56,7 +56,8 @@ class ReviewDetail(View):
                     edit_time = datetime.now(timezone.utc) 
 
                     Review.objects.filter(id=review_id).update(
-                        content = data['content'], 
+                        content    = data['content'],
+                        grade      = data['grade'], 
                         updated_at = edit_time, 
                     )
 
@@ -76,7 +77,7 @@ class ReviewDetail(View):
                 if Review.objects.get(id = review_id).account == request.agent:
                     deleted_review = ReviewTourProduct.objects.get(
                         tour_product = TourProduct.objects.get(number = product_id).id, 
-                        review = review_id
+                        review       = review_id
                     )
 
                     deleted_review.delete()
