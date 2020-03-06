@@ -3,6 +3,7 @@ import json
 from django.views   import View
 from django.http    import HttpResponse, JsonResponse
 from datetime       import datetime,timedelta,timezone
+from django.db.models import Avg
 
 from .models        import Review, TravelObject, Age, ReviewTourProduct
 from product.models import TourProduct
@@ -18,7 +19,7 @@ class ReviewView(View):
 
                 Review.objects.create(
                     content    = data['content'],
-                    grade      = data['grade'],
+                    rating     = data['rating'],
                     account    = request.agent
                 )
 
@@ -31,19 +32,18 @@ class ReviewView(View):
 
                 return HttpResponse(status=200)
             return JsonResponse({'message' : 'INVALID_PRODUCT'}, status=200)
+
         except KeyError:
             return JsonResponse({'message' : 'INVALID_KEYS'}, status=400)
 
     def get(self, request, product_id):
-        review_list = [
-            {
-                'id'      : review_data.review.id,
-                'name'    : review_data.review.account.username,
-                'content' : review_data.review.content,
-                'grade'   : review_data.review.grade,
-                'date'    : review_data.review.created_at
-            } for review_data in ReviewTourProduct.objects.select_related('review').filter(tour_product__number = product_id)
-        ]
+        review_list = [{
+            'id'      : review_data.review.id,
+            'name'    : review_data.review.account.username,
+            'content' : review_data.review.content,
+            'rating'  : review_data.review.rating,
+            'date'    : review_data.review.created_at
+            } for review_data in ReviewTourProduct.objects.select_related('review').filter(tour_product__number = product_id)]
 
         return JsonResponse({'Review_list' : review_list}, status=200)
 
@@ -59,7 +59,7 @@ class ReviewDetail(View):
 
                     Review.objects.filter(id=review_id).update(
                         content    = data['content'],
-                        grade      = data['grade'], 
+                        rating     = data['rating'], 
                         updated_at = edit_time, 
                     )
 
