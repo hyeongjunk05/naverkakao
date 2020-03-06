@@ -33,4 +33,3 @@ class ReviewTourProduct(models.Model):
 
     class Meta:
         db_table = 'review_tourproduct'
-

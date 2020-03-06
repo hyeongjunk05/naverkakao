@@ -99,4 +99,3 @@ class Recommendation(models.Model):
 
     class Meta:
         db_table = 'recommendations'
-
