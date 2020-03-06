@@ -7,8 +7,6 @@ class TourProduct(models.Model):
     group             = models.CharField(max_length = 45, null=True)
     duration          = models.CharField(max_length = 45, null=True)
     language          = models.CharField(max_length = 45, null=True)
-    review_count      = models.IntegerField()
-    review_grade      = models.DecimalField(max_digits = 20, decimal_places = 10, null=True)
     transportation    = models.CharField(max_length = 45, null=True)
     description_title = models.TextField(null=True)
     description       = models.TextField(null=True)
@@ -31,13 +29,15 @@ class TourProduct(models.Model):
          db_table = 'tour_products'
 
 class MainTheme(models.Model):
-    name = models.CharField(max_length = 50)
+    name   = models.CharField(max_length = 50)
+    key    = models.CharField(max_length= 50)
 
     class Meta:
         db_table = 'main_themes'
 
 class SubTheme(models.Model):
     name           = models.CharField(max_length = 45)
+    main_theme     = models.ForeignKey('MainTheme', on_delete = models.CASCADE, null=True, blank=True)
     
     class Meta:
         db_table = 'sub_themes'
@@ -78,23 +78,25 @@ class Guide(models.Model):
 
 class City(models.Model):
     name         = models.CharField(max_length = 45)
-    english_name = models.CharField(max_length= 45)
+    english_name = models.CharField(max_length = 45)
+    image        = models.URLField(max_length = 500)
     country      = models.ForeignKey('Country', on_delete = models.CASCADE)
 
     class Meta:
         db_table = 'cities'
 
-class CityImage(models.Model):
-    image = models.URLField(max_length=500)
-    city  = models.ForeignKey('City', on_delete=models.CASCADE)
-
-    class Meta:
-        db_table = 'city_images'
 
 class Country(models.Model):
     name         = models.CharField(max_length = 45)
-    english_name = models.CharField(max_length= 45)
+    english_name = models.CharField(max_length = 45)
     number       = models.CharField(max_length = 45)
 
     class Meta:
         db_table = 'countries'
+
+class Recommendation(models.Model):
+    recommendation_list = models.CharField(max_length = 50)
+
+    class Meta:
+        db_table = 'recommendations'
+
