@@ -3,6 +3,7 @@ import json
 from django.views   import View
 from django.http    import HttpResponse, JsonResponse
 from datetime       import datetime,timedelta,timezone
+from django.db.models import Avg
 
 from .models        import Review, TravelObject, Age, ReviewTourProduct
 from product.models import TourProduct
@@ -18,7 +19,7 @@ class ReviewView(View):
 
                 Review.objects.create(
                     content    = data['content'],
-                    grade      = data['grade'],
+                    rating     = data['rating'],
                     account    = request.agent
                 )
 
@@ -31,6 +32,7 @@ class ReviewView(View):
 
                 return HttpResponse(status=200)
             return JsonResponse({'message' : 'INVALID_PRODUCT'}, status=200)
+
         except KeyError:
             return JsonResponse({'message' : 'INVALID_KEYS'}, status=400)
 
@@ -39,7 +41,7 @@ class ReviewView(View):
             'id'      : review_data.review.id,
             'name'    : review_data.review.account.username,
             'content' : review_data.review.content,
-            'grade'   : review_data.review.grade,
+            'rating'  : review_data.review.rating,
             'date'    : review_data.review.created_at
             } for review_data in ReviewTourProduct.objects.select_related('review').filter(tour_product__number = product_id)]
 
@@ -56,7 +58,8 @@ class ReviewDetail(View):
                     edit_time = datetime.now(timezone.utc) 
 
                     Review.objects.filter(id=review_id).update(
-                        content = data['content'], 
+                        content    = data['content'],
+                        rating     = data['rating'], 
                         updated_at = edit_time, 
                     )
 
@@ -76,7 +79,7 @@ class ReviewDetail(View):
                 if Review.objects.get(id = review_id).account == request.agent:
                     deleted_review = ReviewTourProduct.objects.get(
                         tour_product = TourProduct.objects.get(number = product_id).id, 
-                        review = review_id
+                        review       = review_id
                     )
 
                     deleted_review.delete()
