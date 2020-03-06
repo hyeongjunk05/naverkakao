@@ -29,13 +29,15 @@ class TourProduct(models.Model):
          db_table = 'tour_products'
 
 class MainTheme(models.Model):
-    name = models.CharField(max_length = 50)
+    name   = models.CharField(max_length = 50)
+    key    = models.CharField(max_length= 50)
 
     class Meta:
         db_table = 'main_themes'
 
 class SubTheme(models.Model):
     name           = models.CharField(max_length = 45)
+    main_theme     = models.ForeignKey('MainTheme', on_delete = models.CASCADE, null=True, blank=True)
     
     class Meta:
         db_table = 'sub_themes'
@@ -66,7 +68,6 @@ class Course(models.Model):
     class Meta:
         db_table = 'courses'
 
-
 class Guide(models.Model):
     name          = models.TextField(null=True)
     description   = models.TextField(null=True)
@@ -76,15 +77,26 @@ class Guide(models.Model):
         db_table = 'guides'
 
 class City(models.Model):
-    name    = models.CharField(max_length = 45)
-    country = models.ForeignKey('Country', on_delete = models.CASCADE)
+    name         = models.CharField(max_length = 45)
+    english_name = models.CharField(max_length = 45)
+    image        = models.URLField(max_length = 500)
+    country      = models.ForeignKey('Country', on_delete = models.CASCADE)
 
     class Meta:
         db_table = 'cities'
 
+
 class Country(models.Model):
-    name   = models.CharField(max_length = 45)
-    number = models.CharField(max_length = 45)
+    name         = models.CharField(max_length = 45)
+    english_name = models.CharField(max_length = 45)
+    number       = models.CharField(max_length = 45)
 
     class Meta:
         db_table = 'countries'
+
+class Recommendation(models.Model):
+    recommendation_list = models.CharField(max_length = 50)
+
+    class Meta:
+        db_table = 'recommendations'
+
