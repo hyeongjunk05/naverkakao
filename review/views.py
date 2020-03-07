@@ -92,8 +92,3 @@ class ReviewDetail(View):
 
         except ReviewTourProduct.DoesNotExist:
             return HttpResponse(status=404)
-
-
-
-
-

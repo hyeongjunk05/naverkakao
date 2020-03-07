@@ -33,7 +33,7 @@ class SignUp(View):
                 password=password,
                 agree_location=False,
                 agree_promotion=False,
-            ).save()  # social login만 추가.
+            ).save()
 
             return HttpResponse(status=200)
 
@@ -64,13 +64,32 @@ class SignIn(View):
         except KeyError:
             return JsonResponse({'message': 'INVALID_KEY'}, status=400)
 
-class KakaoSignIn(View):
+class ProfileUpdate(View):
+    @login_requested
+    def post(self, request):
+        data = json.loads(request.body)
+        profile = Account.objects.get(id = request.agent.id)
+        try:
+            if data.get('username'):
+                profile.username = data.get('username')
+            if data.get('phone'):
+                profile.phone    = data.get('phone')
+            if data.get('email'):
+                profile.email    = data.get('email')
+            profile.save()
+            return JsonResponse({'message':'USERINFO_CHANGED'}, status=200)
+        except KeyError:
+            return JsonResponse({'message':'INVALID_KEY'}, status=400)
+
+    @login_requested
     def get(self, request):
-        client_id = SECRET_KEY["kakao"]
-        clientSecret = '7pzvpy3RXKgFq8igXfiOgdMzncYxWkXY'
-        redirect_uri = "http://127.0.0.1:8000/account/signin/kakao"
-
-        return redirect(
-            f"https://kauth.kakao.com/oauth/authorize?client_id={client_id}&redirect_uri={redirect_uri}&response_type=code"
-        )
-
+        profile = Account.objects.get(id = request.agent.id)
+        try:
+            agent_profile = {
+                "username"      : profile.username,
+                "email"         : profile.email,
+                "phone"         : profile.phone
+            }
+            return JsonResponse({"agent_profile": agent_profile}, status=200)
+        except KeyError:
+            return JsonResponse({"message":"INVALID_KEY"}, status=400)
