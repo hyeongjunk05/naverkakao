@@ -19,7 +19,7 @@ class Account(models.Model):
     updated_at       = models.DateTimeField(auto_now=True)
     profile          = models.URLField(max_length=500, null=True, blank=True)
     phone            = models.IntegerField(null=True, blank=True, default=31874599)
-    market_agree     = models.OneToOneField('MarketingAgree', on_delete=models.CASCADE, null=True, default=2)
+    market_agree     = models.OneToOneField('MarketingAgree', on_delete=models.CASCADE, null=True)
     sns_connection   = models.OneToOneField('SnsConnection', on_delete=models.CASCADE, null=True)
     refund_account   = models.OneToOneField('RefundAccount', on_delete=models.CASCADE, null=True)
 

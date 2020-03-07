@@ -132,9 +132,12 @@ class ProfileUpdate(View):
         data = json.loads(request.body)
         profile = Account.objects.get(id = request.agent.id)
         try:
-            profile.username = data.get('username')
-            profile.phone    = data.get('phone')
-            profile.email    = data.get('email')
+            if data.get('username'):
+                profile.username = data.get('username')
+            if data.get('phone'):
+                profile.phone    = data.get('phone')
+            if data.get('email'):
+                profile.email    = data.get('email')
             profile.save()
             return JsonResponse({'message':'USERINFO_CHANGED'}, status=200)
         except KeyError:
