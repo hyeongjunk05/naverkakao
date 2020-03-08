@@ -1,5 +1,5 @@
 # Introduction
-여행 상품 판매 서비스를 제공하는 마이리얼트립(https://www.myrealtrip.com/) 클론 프로젝트
+여행 상품 판매 서비스를 제공하는 [마이리얼트립](https://www.myrealtrip.com/) 클론 프로젝트
 By 6 developers (4 Front-End, 2 Back-End)
 
 # 개발 인원 및 기간
@@ -7,7 +7,7 @@ By 6 developers (4 Front-End, 2 Back-End)
 - 개발인원 : 4 Front-End, 2 Back-End
 
 # 데모 영상
-https://youtu.be/DQS73OiWkKM
+[![마이리얼트립](https://k.kakaocdn.net/dn/t8jNH/btqCyndYMRG/kG3rxJjM6kM8wrwLzu8ZL0/img.png)](https://youtu.be/DQS73OiWkKM)
 
 # 적용 기술
 - Python
