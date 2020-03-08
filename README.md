@@ -39,5 +39,5 @@ By 6 developers (4 Front-End, 2 Back-End)
 - 평균 평점 및 리뷰 수 데이터 반환
 
 # 데이터 모델링 ERD
-(https://img1.daumcdn.net/thumb/R1280x0/?scode=mtistory2&fname=https%3A%2F%2Fk.kakaocdn.net%2Fdn%2FJa9fx%2FbtqCuY0wO3B%2FzqGkRs2RKOdr2KH5SHvkx1%2Fimg.png)
+![데이터모델링](https://img1.daumcdn.net/thumb/R1280x0/?scode=mtistory2&fname=https%3A%2F%2Fk.kakaocdn.net%2Fdn%2FJa9fx%2FbtqCuY0wO3B%2FzqGkRs2RKOdr2KH5SHvkx1%2Fimg.png)
 
