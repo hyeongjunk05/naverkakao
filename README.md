@@ -6,7 +6,7 @@ By 6 developers (4 Front-End, 2 Back-End)
 - 개발기간 : 2020.02.23 ~ 2020.03.06
 - 개발인원 : 4 Front-End, 2 Back-End
 
-# 데모 영상
+# 데모 영상 (이미지 클릭)
 [![마이리얼트립](https://k.kakaocdn.net/dn/t8jNH/btqCyndYMRG/kG3rxJjM6kM8wrwLzu8ZL0/img.png)](https://youtu.be/DQS73OiWkKM)
 
 # 적용 기술
@@ -29,12 +29,14 @@ By 6 developers (4 Front-End, 2 Back-End)
 ## 상품
 - 메인페이지
   - 메인카테고리 / 서브카테고리 상품 분류 구현 
-- 상세페이지 
-- 검새 기능 
+- 상세페이지
+- 상품 검색 기능
 
 ## 리뷰
+- 상품 별로 리뷰 리스트 반환
 - 로그인한 사용자만 작성
 - 수정 및 삭제 기능 지원
+- 평균 평점 및 리뷰 수 데이터 반환
 
-# 데이터모델링
+# 데이터 모델링 ERD
 
