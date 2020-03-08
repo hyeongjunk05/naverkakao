@@ -1,6 +1,5 @@
 # Introduction
 여행 상품 판매 서비스를 제공하는 [마이리얼트립](https://www.myrealtrip.com/) 클론 프로젝트
-By 6 developers (4 Front-End, 2 Back-End)
 
 # 개발 인원 및 기간
 - 개발기간 : 2020.02.23 ~ 2020.03.06
@@ -40,5 +39,5 @@ By 6 developers (4 Front-End, 2 Back-End)
 - 평균 평점 및 리뷰 수 데이터 반환
 
 # 데이터 모델링 ERD
-![데이터모델링](https://img1.daumcdn.net/thumb/R1280x0/?scode=mtistory2&fname=https%3A%2F%2Fk.kakaocdn.net%2Fdn%2FJa9fx%2FbtqCuY0wO3B%2FzqGkRs2RKOdr2KH5SHvkx1%2Fimg.png)
+![데이터모델링](https://img1.daumcdn.net/thumb/R1280x0/?scode=mtistory2&fname=https%3A%2F%2Fk.kakaocdn.net%2Fdn%2Fl3Dw8%2FbtqCuYzsUvM%2FqnzHvTa8MpM2UcBNmPiITK%2Fimg.png)
 
