@@ -39,4 +39,4 @@ By 6 developers (4 Front-End, 2 Back-End)
 - 평균 평점 및 리뷰 수 데이터 반환
 
 # 데이터 모델링 ERD
-
+https://github.com/wecode-bootcamp-korea/myfaketrip-backend/blob/master/MyFakeTrip_ERD.png
