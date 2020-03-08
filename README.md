@@ -6,7 +6,7 @@
 - 개발인원 : 3 Front-End, 2 Back-End
 
 ## 프론트엔드 github
-https://github.com/wecode-bootcamp-korea/myfaketrip-frontend
+- https://github.com/wecode-bootcamp-korea/myfaketrip-frontend
 
 <br/>
 
