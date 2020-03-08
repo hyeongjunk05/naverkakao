@@ -8,6 +8,7 @@
 ## 프론트엔드 github
 https://github.com/wecode-bootcamp-korea/myfaketrip-frontend
 
+
 # 데모 영상 (이미지 클릭)
 [![마이리얼트립](https://k.kakaocdn.net/dn/t8jNH/btqCyndYMRG/kG3rxJjM6kM8wrwLzu8ZL0/img.png)](https://youtu.be/DQS73OiWkKM)
 
