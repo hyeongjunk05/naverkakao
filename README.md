@@ -1,75 +1,40 @@
 # Introduction
-
-website clone project (https://www.myrealtrip.com/)
+여행 상품 판매 서비스를 제공하는 마이리얼트립(https://www.myrealtrip.com/) 클론 프로젝트
 By 6 developers (4 Front-End, 2 Back-End)
 
-# DB modeling
+# 개발 인원 및 기간
+- 개발기간 : 2020.02.23 ~ 2020.03.06
+- 개발인원 : 4 Front-End, 2 Back-End
 
-&nbsp;
-&nbsp;
-&nbsp;
-## 회원 관련 테이블
-&nbsp;
-### accounts
-- 가입 회원의 데이터를 저장
-&nbsp;
-### reviewes
-- 상품 후기에 대한 데이터를 저장
-&nbsp;
-&nbsp;
-&nbsp;
-## 상품 관련 테이블
-&nbsp;
-### main_themes
-- 상품 메인 카테고리 리스트 저장
-&nbsp;
-### sub_theme
-- 서브 카테고리 리스트 저장  
-&nbsp;
-### tour_products
-- 투어&티켓 상품에 대한 데이터를 저장
-- 상품 명, 타입, 교통 수단, 위도(경도) 등
-&nbsp;
-### images
-- 이미지에 대한 데이터 저장
-- 상품 이미지, 썸네일
-&nbsp;
-### prices
-- 상품 가격에 대한 정보 저장
-- 상품 정가, 할인률, 기격 등
-&nbsp;
-### coures
-- 상품이 제공하는 코스 데이터 저장
-- 이미지, 상세 내용
-&nbsp;
-### guides
-- 여행 가이드에 대한 데이터 저장
-&nbsp;
-### cities
-- 도시 이름 리스트 저장
-&nbsp;
-### countries
-- 국가 이름 리스트 저장
-&nbsp;
-&nbsp;
-&nbsp;
-## 결제 관련 테이블
-&nbsp;
-### orders
-- 결제 관련 데이터 저장
-- 결제정보, 연령, 여행목적 등의 데이터 참조
-&nbsp;
-### payments
-- 결제 방식 저장 
-- 신용카드 결제, 실시간 계좌 이체 등 결제 수단에 대한 리스트 저장
-&nbsp;
-### age
-- 결제자에 대한 연령 정보 저장
-- 10대, 20대, 30대 등등 연령대 리스트 저장
-&nbsp;
-### travel_objects
-- 여행 목적에 대한 데이터 저장
-- 결제창에서 제공하는 리스트 저장(혼자 떠나는 여행, 친구들과 떠나는 여행 등)
+# 데모 영상
+youtube.com/watch?v=DQS73OiWkKM
 
+# 적용 기술
+- Python
+- Django Web Framework
+- Bcrypt
+- JWT
+- MySQL
+- AWS EC2, RDS
+- CORS header
 
+# 구현 기능
+## 공통
+- Beautifulsoup, Selenium을 이용한 실제 데이터 수집
+- Bcrypt를 사용하여 패스워드 해싱
+- JWT를 사용하여 로그인 시 토큰 발행 
+- 회원 가입 및 로그인
+- 이메일 
+
+## 상품
+- 메인페이지
+  - 메인카테고리 / 서브카테고리 상품 분류 구현 
+- 상세페이지 
+- 검새 기능 
+
+## 리뷰
+- 로그인한 사용자만 작성
+- 수정 및 삭제 기능 지원
+
+# 데이터모델링
 
