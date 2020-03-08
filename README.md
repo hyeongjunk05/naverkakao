@@ -16,15 +16,17 @@ By 6 developers (4 Front-End, 2 Back-End)
 - JWT
 - MySQL
 - AWS EC2, RDS
+- Gunicorn
 - CORS header
+- Beautifulsoup, Selenium
 
 # 구현 기능
-## 공통
-- Beautifulsoup, Selenium을 이용한 실제 데이터 수집
+## 계정
 - Bcrypt를 사용하여 패스워드 해싱
 - JWT를 사용하여 로그인 시 토큰 발행 
 - 회원 가입 및 로그인
-- 이메일 
+- 이메일 유효성 검사
+- 마이 페이지
 
 ## 상품
 - 메인페이지
