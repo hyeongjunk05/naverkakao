@@ -4,7 +4,7 @@ By 6 developers (4 Front-End, 2 Back-End)
 
 # 개발 인원 및 기간
 - 개발기간 : 2020.02.23 ~ 2020.03.06
-- 개발인원 : 4 Front-End, 2 Back-End
+- 개발인원 : 3 Front-End, 2 Back-End
 
 # 데모 영상 (이미지 클릭)
 [![마이리얼트립](https://k.kakaocdn.net/dn/t8jNH/btqCyndYMRG/kG3rxJjM6kM8wrwLzu8ZL0/img.png)](https://youtu.be/DQS73OiWkKM)
