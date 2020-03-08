@@ -7,7 +7,7 @@ By 6 developers (4 Front-End, 2 Back-End)
 - 개발인원 : 4 Front-End, 2 Back-End
 
 # 데모 영상
-youtube.com/watch?v=DQS73OiWkKM
+https://youtu.be/DQS73OiWkKM
 
 # 적용 기술
 - Python
