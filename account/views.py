@@ -1,15 +1,19 @@
 import json
 import bcrypt
 import jwt
-import requests
 
 import my_settings
+<<<<<<< HEAD
 from .models import *
+=======
+from .models import Account
+>>>>>>> 5801240c9d54601e005ce713d08d425669d0691d
 from .utils import login_requested
 
 from django.views import View
 from django.http import HttpResponse, JsonResponse
 from django.db import IntegrityError
+from django.shortcuts import redirect
 from django.core.validators import validate_email
 from django.core.exceptions import ValidationError
 
@@ -28,19 +32,28 @@ class SignUp(View):
                 data['password'].encode(), bcrypt.gensalt()).decode('utf-8')
 
             Account(
+<<<<<<< HEAD
                 username        = data['username'],
                 email           = data['email'],
                 password        = password,
                 agree_location  = False,
                 agree_promotion = False,
+=======
+                username=data['username'],
+                email=data['email'],
+                password=password,
+                agree_location=False,
+                agree_promotion=False,
+>>>>>>> 5801240c9d54601e005ce713d08d425669d0691d
             ).save()
 
-            return JsonResponse({'message':"SIGNUP_COMPLETE"}, status=200)
+            return HttpResponse(status=200)
 
         except ValidationError:
             return JsonResponse({"message": "INVALID_EMAIL_FORM"}, status=400)
         except KeyError:
             return JsonResponse({"message": "INVALID_KEYS"}, status=400)
+
 
 class SignIn(View):
     def post(self, request):
@@ -63,6 +76,7 @@ class SignIn(View):
         except KeyError:
             return JsonResponse({'message': 'INVALID_KEY'}, status=400)
 
+<<<<<<< HEAD
 class KakaoSignIn(View):
     def get(self, request):
         kakao_token = request.headers["Authorization"]
@@ -111,6 +125,8 @@ class NaverSignIn(View):
             token = jwt.encode({"id":user.id}, SECRET_KEY['secret'], SECRET_KEY['algorithm']).decode('utf-8')
             return JsonResponse({"access_token": token}, status = 200)
 
+=======
+>>>>>>> 5801240c9d54601e005ce713d08d425669d0691d
 class ProfileUpdate(View):
     @login_requested
     def post(self, request):

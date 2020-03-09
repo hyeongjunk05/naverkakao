@@ -1,14 +1,12 @@
 from django.db import models
 
 
-class SocialLog(models.Model):
-    social = models.CharField(max_length = 50)
-
-    class Meta:
-        db_table = 'social_platform'
-
 class Account(models.Model):
+<<<<<<< HEAD
     social_platform  = models.ForeignKey(SocialLog, on_delete = models.CASCADE, null=True)
+=======
+    social_id        = models.CharField(max_length=50, null=True)
+>>>>>>> 5801240c9d54601e005ce713d08d425669d0691d
     username         = models.CharField(max_length=50, null=True)
     email            = models.EmailField(max_length=50, unique=True, null=True)
     password         = models.CharField(max_length=500)
@@ -17,7 +15,11 @@ class Account(models.Model):
     created_at       = models.DateTimeField(auto_now_add=True)
     updated_at       = models.DateTimeField(auto_now=True)
     profile          = models.URLField(max_length=500, null=True, blank=True)
+<<<<<<< HEAD
     phone            = models.CharField(max_length=50, null=True, blank=True)
+=======
+    phone            = models.IntegerField(null=True, blank=True, default=31874599)
+>>>>>>> 5801240c9d54601e005ce713d08d425669d0691d
 
     class Meta:
         db_table = 'accounts'
